@@ -3,15 +3,15 @@ import Image2 from '../assets/Week_1_menu_page-0002.jpg';
 import Image3 from '../assets/Week_1_menu_page-0003.jpg';
 
 export const imagePaths = [
-    Image1,
-    Image2,
-    Image3,
-    Image1,
-    Image2,
-    Image3,
-    Image1,
-    Image2,
-    Image3
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_1-01.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_1-02.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_1-03.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_2-01.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_2-02.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_2-03.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_3-01.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_3-02.jpg",
+    "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_3-03.jpg"
 ];
 
 export const extractLastSegment = (url) => {
@@ -22,7 +22,7 @@ export const extractLastSegment = (url) => {
 
 
 const generateUniqueId = () => {
-    // You can use a library like uuid to generate a unique ID
+    // Youg can use a library like uuid to generate a unique ID
     // For simplicity, here's a basic example
     const date = new Date().toISOString();
     const random = Math.random().toString(36).substring(2, 15);
