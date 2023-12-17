@@ -112,7 +112,7 @@ class MainScreen extends Component {
 						}}
 					/>
 						<Link to={inputValue ? `/add/${inputValue}` : ``}   >
-							<SendSharpIcon />
+							<SendSharpIcon style={{color:'white'}}/>
 						</Link>
 				</View>
 				{this.state.go & inputValue != '' && (
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		padding: 10,
-		backgroundColor: '#818aca', // Set the background color of the container
+		backgroundColor: '#28215a', // Set the background color of the container
 		position: 'fixed',
 		bottom: 0, // Keep the input container at the bottom
 		width: '100%',
@@ -155,8 +155,10 @@ const styles = StyleSheet.create({
 		margin: 5,
 		// backgroundColor:"#28215a",
 		borderRadius: 6,
-		borderColor: '#28215a',
+		borderColor: 'white',
 		color: 'white',
+		backgroundColor:'white',
+		borderWidth:2
 
 
 	},

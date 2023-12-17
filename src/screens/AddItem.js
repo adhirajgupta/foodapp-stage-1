@@ -15,6 +15,7 @@ import DialogBoxComponent from '../components/DialogBoxComponent';
 import { imagePaths, extractLastSegment } from '../components/Constants';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import db from '../config';
+import { StyleSheet } from 'react-native';
 
 const firestore = getFirestore(db);
 const SuggestionsRef = collection(firestore, 'Suggestions');
@@ -132,7 +133,7 @@ class AddItem extends Component {
         }
     };
 
-    
+
 
 
     handleAddItem = () => {
@@ -181,7 +182,7 @@ class AddItem extends Component {
                     </div>
 
                     {this.state.enableDropdowns && (
-                        <div style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
                             <Select
                                 value={this.state.dropdownValues.dropdown1}
                                 onChange={(event) => this.handleDropdownChange('dropdown1', event)}
@@ -284,6 +285,7 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         marginBottom: 20,
+        justifyContent: 'space-evenly'
     },
     radioLabel: {
         marginLeft: 10,

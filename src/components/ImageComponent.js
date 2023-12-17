@@ -15,18 +15,18 @@ const ImageComponent = ({ screen, showImageDialog }) => {
                     width: 330,
                 }}
             />
-            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center', marginRight: 10 }}>
                 {screen === '/' ? (
                     // Render the buttons for the "/" screen
                     <ButtonGroup>
                         <Link to={`/menu/week1}`}>
                             <Button variant='text' >
                                 <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
-                                    Week 1
+                                    View Menu
                                 </Typography>
                             </Button>
                         </Link>
-                        <Button variant='text'>
+                        {/* <Button variant='text'>
                             <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
                                 Week 2
                             </Typography>
@@ -35,17 +35,24 @@ const ImageComponent = ({ screen, showImageDialog }) => {
                             <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
                                 Week 3
                             </Typography>
-                        </Button>
+                        </Button> */}
                     </ButtonGroup>
                 ) : screen === 'menu' ? (
                     // Render the buttons and handle button press for the "menu" screen
                     <ButtonGroup>
                         <Button variant='text' onClick={() => showImageDialog(true)}>
-                            <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
-                                Week 1
+                            <Typography style={{ color: "#2c265a", fontWeight: 'bold',marginRight:10 }}>
+                                View Menu
                             </Typography>
                         </Button>
-                        <Button variant='text' onClick={() => showImageDialog(true)}>
+                        <Link to="/">
+                         <Button variant='text' onClick={() => showImageDialog(true)}>
+                            <Typography style={{ color: "#2c265a", fontWeight: 'bold',marginRight:10 }}>
+                                Home
+                            </Typography>
+                        </Button>
+                        </Link>
+                        {/* <Button variant='text' onClick={() => showImageDialog(true)}>
                             <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
                                 Week 2
                             </Typography>
@@ -54,7 +61,7 @@ const ImageComponent = ({ screen, showImageDialog }) => {
                             <Typography style={{ color: "#2c265a", fontWeight: 'bold' }}>
                                 Week 3
                             </Typography>
-                        </Button>
+                        </Button> */}
                     </ButtonGroup>
                 ) : null}
             </View>
