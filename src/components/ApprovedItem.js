@@ -6,7 +6,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getFirestore, collection, updateDoc, query, where, getDocs, doc,getDoc } from 'firebase/firestore';
+import { getFirestore, collection, updateDoc, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import db from '../config';
 import Image2 from '../assets/image2.png'
 import { getCookie } from './Constants';
@@ -98,9 +98,13 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						</View>
 					</AccordionSummary>
 					<AccordionDetails style={{ margin: 5 }}>
-						<Typography>Week: {week}</Typography>
-						<Typography>Day: {day}</Typography>
-						<Typography>Meal: {meal}</Typography>
+						{(week && day && meal) && (
+							<>
+								<Typography>Week: {week}</Typography>
+								<Typography>Day: {day}</Typography>
+								<Typography>Meal: {meal}</Typography>
+							</>
+						)}
 						<Typography>{description}</Typography>
 					</AccordionDetails>
 				</Accordion>
