@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Grid, Dialog, DialogContent, Button, Typography, ButtonGroup } from '@mui/material';
-import Image1 from '../assets/Week_1_menu_page-0001.jpg'
-import Image2 from '../assets/Week_1_menu_page-0002.jpg'
-import Image3 from '../assets/Week_1_menu_page-0003.jpg'
 import Image from '../assets/Group 22.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link } from 'react-router-dom';
 import DialogBoxComponent from '../components/DialogBoxComponent';
+import { imagePaths } from '../components/Constants'; // Update the path accordingly
 
 class ViewMenuScreen extends Component {
     constructor(props) {
@@ -20,45 +18,18 @@ class ViewMenuScreen extends Component {
         };
     }
 
-
     handleImageClick = (image, index) => {
         this.setState({ openDialog: true, selectedImage: image, currentIndex: index });
     };
 
     handleNextImage = () => {
         const { currentIndex } = this.state;
-        // Assuming imagePaths is an array of image paths
-        const imagePaths = [
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3
-        ];
-
         const nextIndex = (currentIndex + 1) % imagePaths.length;
         this.setState({ selectedImage: imagePaths[nextIndex], currentIndex: nextIndex });
     };
 
     handlePrevImage = () => {
         const { currentIndex } = this.state;
-        // Assuming imagePaths is an array of image paths
-        const imagePaths = [
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3
-        ];
-
         const prevIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
         this.setState({ selectedImage: imagePaths[prevIndex], currentIndex: prevIndex });
     };
@@ -68,18 +39,6 @@ class ViewMenuScreen extends Component {
     };
 
     renderGridImages = () => {
-        const imagePaths = [
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3,
-            Image1,
-            Image2,
-            Image3
-        ];
-
         return imagePaths.map((path, index) => (
             <Grid item key={index} xs={4} onClick={() => this.handleImageClick(path, index)}>
                 <img
@@ -138,16 +97,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        // alignItems: 'flex-start',
-        backgroundColor: '#fff', // Set the background color of the container
+        backgroundColor: '#fff',
     },
     imageContainer: {
         marginBottom: 10,
         elevation: 7,
         flexDirection: 'row',
-        // alignItems: 'center',
     },
-
     gridImage: {
         width: '100%',
         height: '100%',
@@ -158,6 +114,5 @@ const styles = StyleSheet.create({
         height: 'auto',
     },
 });
-
 
 export default ViewMenuScreen;
