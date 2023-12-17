@@ -6,33 +6,57 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getFirestore, collection, updateDoc, query, where, getDocs, doc } from 'firebase/firestore';
+import { getFirestore, collection, updateDoc, query, where, getDocs, doc,getDoc } from 'firebase/firestore';
 import db from '../config';
+import Image2 from '../assets/image2.png'
+import { getCookie } from './Constants';
+
 const firestore = getFirestore(db);
 const SuggestionsRef = collection(firestore, "Suggestions");
 
 
-
 // ... (other imports)
 
-const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVoteCallback }) => {
+const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVoteCallback, week, day, meal }) => {
 	const [isExpanded, setExpanded] = useState(false);
 	const [iconWidth, setIconoWidth] = useState(40)
 
-	const updateVote = async (approved, description, votes, progress, suggestion) => {
-		const querySnapshot = query(SuggestionsRef, where("suggestion", "==", suggestion), where("description", "==", description))
-		const docId = (await getDocs(querySnapshot)).docs[0].id
-		console.log(docId)
-		await updateDoc(doc(SuggestionsRef, docId), {
-			votes: parseInt(votes) + 1,
-		})
 
-		alert("Voted!")
+	const updateVote = async (approved, description, votes, progress, suggestion) => {
+		// Check if the user has already voted using their cookieId
+		const cookieId = getCookie('uniqueId'); // Assuming you have a function to get the user's cookieId
+
+		const querySnapshot = query(SuggestionsRef, where("suggestion", "==", suggestion), where("description", "==", description));
+		const docId = (await getDocs(querySnapshot)).docs[0].id;
+
+		const suggestionDoc = doc(SuggestionsRef, docId);
+		const suggestionData = (await getDoc(suggestionDoc)).data();
+
+		if (!suggestionData.cookieIds) {
+			// If the array doesn't exist, add it to the document
+			await updateDoc(suggestionDoc, {
+				cookieIds: [cookieId],
+				votes: parseInt(votes) + 1,
+			});
+		} else {
+			if (suggestionData.cookieIds.includes(cookieId)) {
+				// If the user has already voted, show an alert and exit the function
+				alert("You have already voted for this suggestion!");
+				return;
+			}
+
+			// Update the array by adding the new cookieId and incrementing the votes
+			await updateDoc(suggestionDoc, {
+				cookieIds: [...suggestionData.cookieIds, cookieId],
+				votes: parseInt(votes) + 1,
+			});
+		}
+
+		alert("Voted!");
 
 		onVoteCallback(); // Call the callback function
+	};
 
-
-	}
 	if (approved) {
 		return (
 			<Paper elevation={0} style={styles.paper}>
@@ -45,7 +69,7 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						expandIcon={<ExpandMoreIcon />}
 						aria-controls="panel1a-content"
 						id="panel1a-header"
-						onMouseEnter={() =>  setExpanded(true)}
+						onMouseEnter={() => setExpanded(true)}
 						onMouseLeave={() => setExpanded(false)}
 						style={styles.summary}
 					>
@@ -65,7 +89,7 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						<View style={styles.progressIconContainer}>
 							<View style={styles.iconBackground}>
 								<img
-									src={require("../assets/image2.png")}
+									src={Image2}
 									style={{ width: iconWidth, height: iconWidth }}
 									alt='like icon'
 									onClick={() => updateVote(approved, description, votes, progress, suggestion)}
@@ -74,6 +98,9 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						</View>
 					</AccordionSummary>
 					<AccordionDetails style={{ margin: 5 }}>
+						<Typography>Week: {week}</Typography>
+						<Typography>Day: {day}</Typography>
+						<Typography>Meal: {meal}</Typography>
 						<Typography>{description}</Typography>
 					</AccordionDetails>
 				</Accordion>

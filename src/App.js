@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import MainScreen from "./screens/MainScreen";
 import AddItem from './screens/AddItem';
+import ViewMenuScreen from './screens/ViewMenu';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
   {
     path: '/add/:inputValue',
     element: <AddItem />,
+  },
+  {
+        path: '/menu/:inputValue',
+    element: <ViewMenuScreen />,
+
   }
 ]);
 
@@ -22,6 +28,7 @@ const App = () => {
     <RouterProvider router={router}>
       <MainScreen />
       <AddItem />
+      <ViewMenuScreen/>
     </RouterProvider>
   );
 };
