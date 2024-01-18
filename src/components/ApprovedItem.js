@@ -60,8 +60,8 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 					<View style={[styles.iconBackground, { flexDirection: 'row', marginLeft: 5 }]}>
 						<ClearIcon
 							style={{ width: iconWidth, height: iconWidth, color: 'red' }}
-							onClick={() => { 
-								addToDeclinedCollection(approved, description, votes, progress, suggestion,onVoteCallback)
+							onClick={() => {
+								addToDeclinedCollection(approved, description, votes, progress, suggestion, onVoteCallback)
 							}}
 						/>
 					</View>
@@ -72,7 +72,7 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 	const [isExpanded, setExpanded] = useState(false);
 	const [iconWidth, setIconoWidth] = useState(40)
 
-	
+
 
 
 	const updateApproval = async (approved, description, votes, progress, suggestion, status) => {
@@ -127,7 +127,7 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 		onVoteCallback(); // Call the callback function
 	};
 
-	if (portal?!approved:approved) {
+	if (portal ? !approved : approved) {
 		return (
 			<Paper elevation={0} style={styles.paper}>
 				<Accordion
@@ -146,11 +146,14 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						<Typography variant="h6" style={{ fontWeight: 'bold', marginRight: 10, marginTop: 3 }}>
 							{suggestion}
 						</Typography>
-				
+
 						{rightComponent()}
 
 					</AccordionSummary>
-					<AccordionDetails style={{ margin: 5 }}>
+					<AccordionDetails style={{ margin: 5 }}
+						onMouseEnter={() => setExpanded(true)}
+						onMouseLeave={() => setExpanded(false)}
+					>
 						{(week && day && meal) && (
 							<>
 								<Typography>Week: {week}</Typography>
