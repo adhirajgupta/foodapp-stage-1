@@ -1,7 +1,8 @@
 import Image1 from '../assets/Week_1_menu_page-0001.jpg';
 import Image2 from '../assets/Week_1_menu_page-0002.jpg';
 import Image3 from '../assets/Week_1_menu_page-0003.jpg';
-
+import { getFirestore, collection, addDoc, deleteDoc, query, where, doc, getDocs } from 'firebase/firestore';
+import db from '../config'
 export const imagePaths = [
     "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_1-01.jpg",
     "https://raw.githubusercontent.com/adhirajgupta/foodapp-stage-1/master/public/Week_1-02.jpg",
@@ -51,3 +52,45 @@ export const checkAndSetCookie = () => {
     return existingCookie
 
 };
+
+
+
+
+
+export const addToDeclinedCollection = async (approved, description, votes, progress, suggestion, onVoteCallback) => {
+    const firestore = getFirestore(db);
+    const DeclinedRef = collection(firestore, 'Declined');
+    const SuggestionsRef = collection(firestore, 'Suggestions');
+    const querySnapshot = query(SuggestionsRef, where("suggestion", "==", suggestion), where("description", "==", description));
+    const docId = (await getDocs(querySnapshot)).docs[0].id;
+    // const suggestionDoc = doc(SuggestionsRef, docId);
+
+    try {
+        // Generate a random doc id for the 'Declined' collection
+        const randomDocId = Math.random().toString(36).substring(7);
+
+        // Add the document to the 'Declined' collection
+        await addDoc(DeclinedRef, {
+            approved: approved,
+            description: description,
+            votes: votes,
+            // progress: progress,
+            suggestion: suggestion,
+            // Additional fields or modifications can be made here
+        });
+
+        console.log('Document added to Declined collection successfully.');
+
+        // Delete the document from the 'Suggestions' collection
+        await deleteDoc(doc(SuggestionsRef, docId));
+
+        console.log('Document deleted from Suggestions collection successfully.');
+        onVoteCallback()
+        alert("This suggestion has been successfully declined")
+        return "Success";
+    } catch (error) {
+        console.error('Error:', error);
+        return "Error";
+    }
+};
+

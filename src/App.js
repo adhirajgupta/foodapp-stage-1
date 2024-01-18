@@ -6,6 +6,8 @@ import {
 import MainScreen from "./screens/MainScreen";
 import AddItem from './screens/AddItem';
 import ViewMenuScreen from './screens/ViewMenu';
+import { NotFound } from './screens/Redirect';
+import Portal from './screens/Portal';
 
 const router = createBrowserRouter([
   {
@@ -17,9 +19,16 @@ const router = createBrowserRouter([
     element: <AddItem />,
   },
   {
-        path: '/menu/:inputValue',
+    path: '/menu/:inputValue',
     element: <ViewMenuScreen />,
-
+  },
+  {
+    path: '*',
+    element: <NotFound />
+  },
+  {
+    path: 'portal/verify',
+    element: <Portal />
   }
 ]);
 
@@ -28,7 +37,7 @@ const App = () => {
     <RouterProvider router={router}>
       <MainScreen />
       <AddItem />
-      <ViewMenuScreen/>
+      <ViewMenuScreen />
     </RouterProvider>
   );
 };

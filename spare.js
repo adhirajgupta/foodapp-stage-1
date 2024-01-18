@@ -9,88 +9,17 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getFirestore, collection, updateDoc, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import db from '../config';
 import Image2 from '../assets/image2.png'
-import { addToDeclinedCollection, getCookie } from './Constants';
-import ClearIcon from '@mui/icons-material/Clear';
-import Done from '@mui/icons-material/Done';
+import { getCookie } from './Constants';
 
 const firestore = getFirestore(db);
 const SuggestionsRef = collection(firestore, "Suggestions");
 
 
 
-const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVoteCallback, week, day, meal, portal }) => {
-
-	const rightComponent = () => {
-		if (!portal) {
-			return (
-				<>
-					<View style={{ flexDirection: "column", flex: 1, alignItems: 'center', marginTop: 7 }}>
-						<LinearProgress
-							variant="determinate"
-							value={votes}
-							style={styles.progressBar}
-						/>
-						<Typography style={{ opacity: 0.5, fontSize: 15, marginLeft: 'auto', marginRight: 20 }}>
-							{votes} votes
-						</Typography>
-					</View>
-					<View style={styles.progressIconContainer}>
-						<View style={styles.iconBackground}>
-							<img
-								src={Image2}
-								style={{ width: iconWidth, height: iconWidth }}
-								alt='like icon'
-								onClick={() => updateVote(approved, description, votes, progress, suggestion)}
-							/>
-						</View>
-					</View>
-				</>
-			)
-		} else {
-			console.log(onVoteCallback)
-			return (
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-					<View style={[styles.iconBackground, { flexDirection: 'row', }]}>
-						<Done
-							style={{ width: iconWidth, height: iconWidth, color: 'green' }}
-							onClick={() => updateApproval(approved, description, votes, progress, suggestion, true)}
-						/>
-
-					</View>
-					<View style={[styles.iconBackground, { flexDirection: 'row', marginLeft: 5 }]}>
-						<ClearIcon
-							style={{ width: iconWidth, height: iconWidth, color: 'red' }}
-							onClick={() => { 
-								addToDeclinedCollection(approved, description, votes, progress, suggestion,onVoteCallback)
-							}}
-						/>
-					</View>
-				</View>
-			)
-		}
-	}
+const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVoteCallback, week, day, meal }) => {
 	const [isExpanded, setExpanded] = useState(false);
 	const [iconWidth, setIconoWidth] = useState(40)
 
-	
-
-
-	const updateApproval = async (approved, description, votes, progress, suggestion, status) => {
-		const querySnapshot = query(SuggestionsRef, where("suggestion", "==", suggestion), where("description", "==", description));
-		const docId = (await getDocs(querySnapshot)).docs[0].id;
-
-		const suggestionDoc = doc(SuggestionsRef, docId);
-
-		// Update the array by adding the new cookieId and incrementing the votes
-		await updateDoc(suggestionDoc, {
-			approved: status
-		});
-
-
-		alert(`You have ${status ? "approved" : "declined"} this suggestion`);
-
-		onVoteCallback(); // Call the callback function
-	}
 
 	const updateVote = async (approved, description, votes, progress, suggestion) => {
 		// Check if the user has already voted using their cookieId
@@ -127,7 +56,7 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 		onVoteCallback(); // Call the callback function
 	};
 
-	if (portal?!approved:approved) {
+	if (approved) {
 		return (
 			<Paper elevation={0} style={styles.paper}>
 				<Accordion
@@ -146,9 +75,26 @@ const ApprovedItem = ({ approved, description, votes, progress, suggestion, onVo
 						<Typography variant="h6" style={{ fontWeight: 'bold', marginRight: 10, marginTop: 3 }}>
 							{suggestion}
 						</Typography>
-				
-						{rightComponent()}
-
+						<View style={{ flexDirection: "column", flex: 1, alignItems: 'center', marginTop: 7 }}>
+							<LinearProgress
+								variant="determinate"
+								value={votes}
+								style={styles.progressBar}
+							/>
+							<Typography style={{ opacity: 0.5, fontSize: 15, marginLeft: 'auto', marginRight: 20 }}>
+								{votes} votes
+							</Typography>
+						</View>
+						<View style={styles.progressIconContainer}>
+							<View style={styles.iconBackground}>
+								<img
+									src={Image2}
+									style={{ width: iconWidth, height: iconWidth }}
+									alt='like icon'
+									onClick={() => updateVote(approved, description, votes, progress, suggestion)}
+								/>
+							</View>
+						</View>
 					</AccordionSummary>
 					<AccordionDetails style={{ margin: 5 }}>
 						{(week && day && meal) && (

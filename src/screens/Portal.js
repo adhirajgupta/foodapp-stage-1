@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { View, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { Button, ButtonGroup, TextField, Typography } from '@mui/material';
@@ -12,7 +13,6 @@ import { checkAndSetCookie } from '../components/Constants';
 
 const firestore = getFirestore(db);
 const SuggestionsRef = collection(firestore, 'Suggestions');
-    const DeclinedRef = collection(firestore, 'Declined');
 
 class MainScreen extends Component {
 	state = {
@@ -54,7 +54,7 @@ class MainScreen extends Component {
 	deleteAllDocuments = async () => {
 		try {
 			// Get all documents in the collection
-			const querySnapshot = await getDocs(DeclinedRef);
+			const querySnapshot = await getDocs(SuggestionsRef);
 
 			// Delete each document
 			const deletePromises = [];
@@ -91,13 +91,8 @@ class MainScreen extends Component {
 						chefs.
 					</Typography>
 					{data.length ? data.map((val, index) => (
-						<ApprovedItem key={index} {...val} onVoteCallback={this.handleVoteCallback} />
-					)) : (
-						<>
-						<ActivityIndicator/>
-						<Typography>Loading...</Typography>
-						</>
-					)}
+						<ApprovedItem key={index} {...val} onVoteCallback={this.handleVoteCallback} portal={true} />
+					)) : (<Typography>There are no suggesitons yet</Typography>)}
 					<div style={{ marginBottom: 20 }}></div>
 				</ScrollView>
 				<View style={styles.semiCircleInput}>
