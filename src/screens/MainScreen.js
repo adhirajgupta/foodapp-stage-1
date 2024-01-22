@@ -88,7 +88,7 @@ class MainScreen extends Component {
 				<ScrollView style={styles.scrollView}>
 					<Typography style={{ fontWeight: 'bold', fontSize: 25, padding: 10 }}>
 						The official TISB food feedback portal. Vote for existing ideas or post your own idea. The top idea every month will be submitted to the
-						chefs.
+						TISB Food Council.
 					</Typography>
 					{data.length ? data.map((val, index) => (
 						<ApprovedItem key={index} {...val} onVoteCallback={this.handleVoteCallback} />

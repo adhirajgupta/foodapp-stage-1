@@ -87,8 +87,7 @@ class MainScreen extends Component {
 
 				<ScrollView style={styles.scrollView}>
 					<Typography style={{ fontWeight: 'bold', fontSize: 25, padding: 10 }}>
-						The official TISB food feedback portal. Vote for existing ideas or post your own idea. The top idea every month will be submitted to the
-						chefs.
+						Please choose the recommendations to be presented for voting
 					</Typography>
 					{data.length ? data.map((val, index) => (
 						<ApprovedItem key={index} {...val} onVoteCallback={this.handleVoteCallback} portal={true} />
@@ -112,9 +111,9 @@ class MainScreen extends Component {
 							this.setState({ inputValue: text.target.value });
 						}}
 					/>
-						<Link to={inputValue ? `/add/${inputValue}` : ``}   >
-							<SendSharpIcon style={{color:'white'}}/>
-						</Link>
+					<Link to={inputValue ? `/add/${inputValue}` : ``}   >
+						<SendSharpIcon style={{ color: 'white' }} />
+					</Link>
 				</View>
 				{this.state.go & inputValue != '' && (
 					<Navigate to={`/add/${inputValue}`} />
@@ -158,8 +157,8 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		borderColor: 'white',
 		color: 'white',
-		backgroundColor:'#c6ccf9',
-		borderWidth:2
+		backgroundColor: '#c6ccf9',
+		borderWidth: 2
 
 
 	},

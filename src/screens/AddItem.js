@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import ImageComponent from '../components/ImageComponent';
 import DialogBoxComponent from '../components/DialogBoxComponent';
-import { imagePaths, extractLastSegment } from '../components/Constants';
+import { imagePaths, extractLastSegment, checkInputPrompt } from '../components/Constants';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import db from '../config';
 import { StyleSheet } from 'react-native';
@@ -137,7 +137,12 @@ class AddItem extends Component {
 
 
     handleAddItem = () => {
-        this.uploadToFirebase(this.state.firstInputValue, 0, false, this.state.secondInputValue);
+        if (checkInputPrompt(this.state.firstInputValue) && checkInputPrompt(this.state.secondInputValue)) {
+            console.log(checkInputPrompt(this.state.firstInputValue),this.state.firstInputValue)
+            this.uploadToFirebase(this.state.firstInputValue, 0, false, this.state.secondInputValue);
+        } else {
+            alert("This language is not allowed","Please use polite language to voice your concern")
+        }
     };
 
     renderDropdownOptions = (options) => {

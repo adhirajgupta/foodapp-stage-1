@@ -55,6 +55,17 @@ export const checkAndSetCookie = () => {
 
 
 
+export const checkInputPrompt = (input) => {
+    const vulgarWords = ['fuck', 'madharchod', 'behenchod', 'dick', 'pussy','sex','bitch']
+    for (const x of vulgarWords) {
+        if (input.includes(x)) {
+            return false
+        }
+    }
+    return true
+}
+
+
 
 
 export const addToDeclinedCollection = async (approved, description, votes, progress, suggestion, onVoteCallback) => {
