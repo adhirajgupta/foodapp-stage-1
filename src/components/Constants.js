@@ -33,7 +33,11 @@ const generateUniqueId = () => {
 const setCookie = (name, value, days) => {
     const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+
+    // Add SameSite attribute to the cookie
+    const cookieOptions = `expires=${expires.toUTCString()};path=/;SameSite=None;Secure`;
+
+    document.cookie = `${name}=${value};${cookieOptions}`;
 };
 
 export const getCookie = (name) => {
