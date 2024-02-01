@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     element: <NotFound />
   },
   {
-    path: 'portal/verify',
+    path: '/portal/verify',
     element: <Portal />
   }
 ]);
