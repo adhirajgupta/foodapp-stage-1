@@ -38,6 +38,8 @@ const App = () => {
       <MainScreen />
       <AddItem />
       <ViewMenuScreen />
+      <NotFound/>
+      <Portal/>
     </RouterProvider>
   );
 };
