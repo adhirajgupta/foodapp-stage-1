@@ -12,7 +12,7 @@ import { checkAndSetCookie } from '../components/Constants';
 
 const firestore = getFirestore(db);
 const SuggestionsRef = collection(firestore, 'Suggestions');
-    const DeclinedRef = collection(firestore, 'Declined');
+const DeclinedRef = collection(firestore, 'Declined');
 
 class MainScreen extends Component {
 	state = {
@@ -72,6 +72,27 @@ class MainScreen extends Component {
 	}
 
 
+	sortData = (data) => {
+		const dataArray = Object.entries(data);
+		console.log(dataArray)
+		// Sort the array based on "votes" property in descending order
+		dataArray.sort((a, b) => b[1].votes - a[1].votes);
+
+		// Create a new object from the sorted array
+		const sortedData = [];
+		dataArray.forEach(([key, value], index) => {
+			sortedData[index + 1] = value;
+		});
+
+		sortedData.shift()
+
+		// Output the sorted object
+
+		return sortedData
+
+	}
+
+
 	handleVoteCallback = () => {
 		console.log('executed handleVoteCallback');
 		this.forceUpdate(this.componentDidMount()); // or any other logic you want to execute after voting
@@ -79,6 +100,7 @@ class MainScreen extends Component {
 
 	render() {
 		const { inputValue, data } = this.state;
+		const sortedData = this.sortData(data)
 		// if (data.length) {
 		return (
 			<View style={styles.container}>
@@ -90,38 +112,41 @@ class MainScreen extends Component {
 						The official TISB food feedback portal. Vote for existing ideas or post your own idea. The top idea every month will be submitted to the
 						TISB Food Council.
 					</Typography>
-					{data.length ? data.map((val, index) => (
+					{sortedData.length ? sortedData.map((val, index) => (
 						<ApprovedItem key={index} {...val} onVoteCallback={this.handleVoteCallback} />
 					)) : (
 						<>
-						<ActivityIndicator/>
-						<Typography>Loading...</Typography>
+							<ActivityIndicator />
+							<Typography>Loading...</Typography>
 						</>
 					)}
 					<div style={{ marginBottom: 20 }}></div>
 				</ScrollView>
 				<View style={styles.semiCircleInput}>
-					<TextField
-						style={styles.textField}
-						label="Enter item here"
-						variant="outlined"
-						value={inputValue}
-						onKeyDown={(event) => {
-							// event.preventDefault()
-							if (event.key == 'Enter') {
-								console.log("executed")
-								this.setState({ go: true })
-							}
-						}}
-						onChange={(text) => {
-							this.setState({ inputValue: text.target.value });
-						}}
-					/>
+					<View style={[styles.semiCircleInput,{ flexDirection: 'row',bottom:10 }]}>
+						<TextField
+							style={styles.textField}
+							label="Enter item here"
+							variant="outlined"
+							value={inputValue}
+							onKeyDown={(event) => {
+								// event.preventDefault()
+								if (event.key === 'Enter') {
+									console.log("executed")
+									this.setState({ go: true })
+								}
+							}}
+							onChange={(text) => {
+								this.setState({ inputValue: text.target.value });
+							}}
+						/>
 						<Link to={inputValue ? `/add/${inputValue}` : ``}   >
-							<SendSharpIcon style={{color:'white'}}/>
+							<SendSharpIcon style={{ color: 'white' }} />
 						</Link>
+					</View>
+					<Typography style={{color:'gray',opacity:0.5,fontSize:10}}>Initiative by Raajvir Vijay and Adhiraj Gupta</Typography>
 				</View>
-				{this.state.go & inputValue != '' && (
+				{this.state.go & inputValue !== '' && (
 					<Navigate to={`/add/${inputValue}`} />
 				)}
 
@@ -148,7 +173,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	semiCircleInput: {
-		flexDirection: 'row',
+		// flexDirection: 'row',
 		alignItems: 'center',
 		padding: 10,
 		backgroundColor: '#28215a', // Set the background color of the container
@@ -163,8 +188,8 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		borderColor: 'white',
 		color: 'white',
-		backgroundColor:'#c6ccf9',
-		borderWidth:2
+		backgroundColor: '#c6ccf9',
+		borderWidth: 2,
 
 
 	},
