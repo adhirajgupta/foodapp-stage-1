@@ -126,7 +126,7 @@ class MainScreen extends Component {
 					<View style={[styles.semiCircleInput,{ flexDirection: 'row',bottom:10 }]}>
 						<TextField
 							style={styles.textField}
-							label="Enter item here"
+							label="Add your suggestions here"
 							variant="outlined"
 							value={inputValue}
 							onKeyDown={(event) => {
